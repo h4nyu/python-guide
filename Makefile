@@ -1,7 +1,14 @@
-.PHONY: build
-build: html
+# -*- coding: utf-8 -*-
+# Need virtualenv
+.PHONY: all clean build rebuild
 
-# this pattern rule lets you run "make build" (or any other target
-# in docs/Makefile) in this directory as though you were in docs/
-%:
-	cd docs && make $@
+all: env build
+	@echo "build finished..."
+
+build:env
+	pip-compile  dev-requirements.in
+	pip-compile dev-requirements.in
+	pip-sync requirements.txt dev-requirements.txt
+
+env:
+	pip install pip-tools
